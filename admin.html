@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atikul Cloud - Secure Admin Access</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+</head>
+<body class="bg-slate-100 p-4">
+
+    <div id="loginSection" class="max-w-md mx-auto mt-20 bg-white p-10 rounded-3xl shadow-2xl border border-slate-50">
+        <div class="text-center mb-8">
+            <h2 class="text-3xl font-black text-slate-800">Admin Login</h2>
+            <p class="text-slate-500 mt-2 text-sm">আপনার ইউজারনেম ও পাসওয়ার্ড দিয়ে প্রবেশ করুন</p>
+        </div>
+        
+        <div class="space-y-4">
+            <div>
+                <label class="text-xs font-bold text-slate-400 uppercase ml-1">Username</label>
+                <input type="text" id="adminUser" 
+                       class="w-full p-4 border-2 border-slate-100 rounded-2xl bg-slate-50 focus:border-indigo-500 outline-none transition-all mt-1" 
+                       placeholder="আপনার ইউজারনেম">
+            </div>
+
+            <div>
+                <label class="text-xs font-bold text-slate-400 uppercase ml-1">Password</label>
+                <input type="password" id="adminPass" 
+                       class="w-full p-4 border-2 border-slate-100 rounded-2xl bg-slate-50 focus:border-indigo-500 outline-none transition-all mt-1" 
+                       placeholder="••••••••">
+            </div>
+            
+            <button onclick="checkAuth()" 
+                    class="w-full bg-indigo-600 text-white font-bold py-4 rounded-2xl shadow-lg hover:bg-slate-900 transition-all mt-2">
+                লগইন করুন
+            </button>
+        </div>
+    </div>
+
+    <div id="adminForm" class="hidden max-w-xl mx-auto bg-white p-8 rounded-3xl shadow-2xl border border-slate-100 mt-10">
+        <div class="flex justify-between items-center mb-8 pb-4 border-b">
+            <h1 class="text-2xl font-black text-slate-800">Add VPS Plan</h1>
+            <button onclick="location.reload()" class="text-xs bg-red-50 text-red-500 font-bold px-4 py-2 rounded-xl hover:bg-red-500 hover:text-white transition-all">Logout</button>
+        </div>
+        
+        <div class="grid grid-cols-1 gap-5">
+            <div>
+                <label class="text-xs font-bold text-slate-400 uppercase ml-1">Plan ID (Unique)</label>
+                <input type="text" id="planId" class="w-full p-3 border rounded-xl bg-slate-50 mt-1" placeholder="যেমন: basic01">
+            </div>
+            
+            <div>
+                <label class="text-xs font-bold text-slate-400 uppercase ml-1">Plan Name</label>
+                <input type="text" id="name" class="w-full p-3 border rounded-xl mt-1" placeholder="যেমন: ATK PREMIUM VPS">
+            </div>
+            
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="text-xs font-bold text-slate-400 uppercase ml-1">RAM</label>
+                    <input type="text" id="ram" class="w-full p-3 border rounded-xl mt-1" placeholder="4GB RAM">
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-slate-400 uppercase ml-1">CPU</label>
+                    <input type="text" id="cpu" class="w-full p-3 border rounded-xl mt-1" placeholder="2 Core CPU">
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="text-xs font-bold text-slate-400 uppercase ml-1">Price (BDT)</label>
+                    <input type="number" id="price" class="w-full p-3 border rounded-xl mt-1" placeholder="500">
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-slate-400 uppercase ml-1">Storage</label>
+                    <input type="text" id="storage" class="w-full p-3 border rounded-xl mt-1" placeholder="50GB NVMe">
+                </div>
+            </div>
+            
+            <div>
+                <label class="text-xs font-bold text-slate-400 uppercase ml-1">Bandwidth</label>
+                <input type="text" id="bandwidth" class="w-full p-3 border rounded-xl mt-1" placeholder="1TB Bandwidth">
+            </div>
+            
+            <button onclick="savePlan()" class="w-full bg-slate-900 text-white font-black py-4 rounded-2xl shadow-xl hover:bg-indigo-600 transition-all mt-6">
+                SAVE PLAN TO SITE
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // ১. আপনার Firebase Config এখানে বসান
+       const firebaseConfig = {
+  apiKey: "AIzaSyAxQXR_DgqJIHjK9bT44OFezva7Qt4U20o",
+  authDomain: "atikul-vps.firebaseapp.com",
+  databaseURL: "https://atikul-vps-default-rtdb.firebaseio.com",
+  projectId: "atikul-vps",
+  storageBucket: "atikul-vps.firebasestorage.app",
+  messagingSenderId: "794605033450",
+  appId: "1:794605033450:web:012af915359fb8abe70493",
+  measurementId: "G-VRZQFBQSKM"
+};
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        // ২. আপনার সিক্রেট ইউজারনেম ও পাসওয়ার্ড এখানে সেট করুন
+        const MY_USERNAME = "atikuladmin"; 
+        const MY_PASSWORD = "password31599"; 
+
+        // অথেন্টিকেশন চেক করার ফাংশন
+        function checkAuth() {
+            const user = document.getElementById('adminUser').value;
+            const pass = document.getElementById('adminPass').value;
+
+            if(user === MY_USERNAME && pass === MY_PASSWORD) {
+                document.getElementById('loginSection').classList.add('hidden');
+                document.getElementById('adminForm').classList.remove('hidden');
+            } else {
+                alert("ইউজারনেম বা পাসওয়ার্ড ভুল হয়েছে!");
+            }
+        }
+
+        // ডাটা সেভ করার ফাংশন
+        function savePlan() {
+            const planId = document.getElementById('planId').value;
+            const data = {
+                name: document.getElementById('name').value,
+                ram: document.getElementById('ram').value,
+                cpu: document.getElementById('cpu').value,
+                price: document.getElementById('price').value,
+                storage: document.getElementById('storage').value,
+                bandwidth: document.getElementById('bandwidth').value
+            };
+
+            if(!planId || !data.name) {
+                alert("দয়া করে আইডি এবং নাম পূরণ করুন!");
+                return;
+            }
+
+            db.ref("plans/" + planId).set(data)
+            .then(() => {
+                alert("সফলভাবে আপডেট হয়েছে!");
+                document.querySelectorAll('input:not([type="password"]):not(#adminUser)').forEach(i => i.value = '');
+            })
+            .catch(err => alert("এরর: " + err.message));
+        }
+    </script>
+</body>
+</html>

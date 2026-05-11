@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATIKUL CLOUD</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="bg-slate-50 flex flex-col md:flex-row min-h-screen">
+
+<aside class="w-full md:w-64 bg-white border-r p-6 flex flex-col">
+    
+    <div class="font-black text-2xl mb-10 text-indigo-600">
+        ATIKUL CLOUD
+    </div>
+
+    <nav class="space-y-2 flex-grow">
+
+        <button id="btnStore"
+        class="nav-link w-full text-left p-3 rounded-xl active-tab">
+            <i class="fa-solid fa-server"></i>
+            VPS Store
+        </button>
+
+        <button id="btnOrders"
+        class="nav-link w-full text-left p-3 rounded-xl">
+            <i class="fa-solid fa-cart-shopping"></i>
+            My Orders
+        </button>
+
+        <button id="adminMenu"
+        class="w-full text-left p-3 bg-red-50 text-red-600 rounded-xl hidden">
+            <i class="fa-solid fa-user-shield"></i>
+            Admin Panel
+        </button>
+
+    </nav>
+
+    <div class="mt-10 border-t pt-6">
+
+        <p id="userStatus"
+        class="text-xs mb-2 text-slate-400">
+            Guest Mode
+        </p>
+
+        <button id="authBtn"
+        class="w-full bg-indigo-600 text-white py-3 rounded-xl font-bold">
+            Login
+        </button>
+
+    </div>
+
+</aside>
+
+<main class="flex-grow p-6">
+
+    <!-- STORE -->
+    <div id="store-section">
+
+        <h2 class="text-3xl font-bold mb-6">
+            Premium VPS Plans
+        </h2>
+
+
+
+        <div class="grid md:grid-cols-2 xl:grid-cols-4 gap-6">
+
+
+            <!-- Vps card add Sart-->
+             <!-- Vps card add Sart-->
+              <!-- Vps card add Sart-->
+               <!-- Vps card add Sart-->
+                <!-- Vps card add Sart-->
+                 <!-- Vps card add Sart-->
+                  
+
+    <!-- PLAN 1 -->
+   <div id="plansContainer"
+class="grid md:grid-cols-2 xl:grid-cols-4 gap-6">
+</div>
+
+<!-- Vps card add End-->
+ <!-- Vps card add End-->
+  <!-- Vps card add End-->
+   <!-- Vps card add End-->
+    <!-- Vps card add End-->
+
+
+    <!-- ORDERS -->
+    <div id="orders-section" class="hidden">
+
+        <h2 class="text-2xl font-bold mb-6">
+            Your Orders
+        </h2>
+
+        <div id="orderContainer">
+            Login to see orders.
+        </div>
+
+    </div>
+
+    <!-- ADMIN -->
+    <div id="admin-section" class="hidden">
+
+        <h2 class="text-2xl font-bold mb-6 text-red-600">
+            Admin Dashboard
+        </h2>
+
+        <table class="w-full bg-white rounded-xl overflow-hidden">
+
+            <thead class="bg-slate-100">
+                <tr>
+                    <th class="p-3">Email</th>
+                    <th class="p-3">Plan</th>
+                    <th class="p-3">TXID</th>
+                    <th class="p-3">Action</th>
+                </tr>
+            </thead>
+
+            <tbody id="adminTableBody"></tbody>
+
+        </table>
+
+    </div>
+
+</main>
+
+<!-- MODAL -->
+
+<div id="modalOverlay" class="modal-overlay">
+
+    <div class="modal-box">
+
+        <button id="closeModal" class="close-btn">
+            &times;
+        </button>
+
+        <!-- LOGIN -->
+
+        <div id="loginFormArea">
+
+            <h2 class="text-3xl font-black mb-6">
+                Login
+            </h2>
+
+            <input type="email"
+            id="loginEmail"
+            placeholder="Email"
+            class="input-box">
+
+            <input type="password"
+            id="loginPass"
+            placeholder="Password"
+            class="input-box">
+
+            <button id="loginNow"
+            class="main-btn">
+                Sign In
+            </button>
+
+            <p class="mt-4 text-center">
+                New here?
+                <button id="toReg" class="text-indigo-600">
+                    Register
+                </button>
+            </p>
+
+        </div>
+
+        <!-- REGISTER -->
+
+        <div id="regFormArea" class="hidden">
+
+            <h2 class="text-3xl font-black mb-6">
+                Register
+            </h2>
+
+            <input type="text"
+            id="regName"
+            placeholder="Full Name"
+            class="input-box">
+
+            <input type="email"
+            id="regEmail"
+            placeholder="Email"
+            class="input-box">
+
+            <input type="password"
+            id="regPass"
+            placeholder="Password"
+            class="input-box">
+
+            <button id="regNow"
+            class="main-btn">
+                Create Account
+            </button>
+
+            <p class="mt-4 text-center">
+                Back to
+                <button id="toLog" class="text-indigo-600">
+                    Login
+                </button>
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- FIREBASE -->
+
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+
+<script src="script.js"></script>
+
+
+
+</body>
+</html>
