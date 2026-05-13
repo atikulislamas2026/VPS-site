@@ -203,18 +203,39 @@ function loadPlans() {
             <div>
                 <h3 style="font-size: 24px; font-weight: 900; margin-bottom: 10px; color: #1e293b;">${d.name}</h3>
                 <div style="color: #64748b; margin-bottom: 20px; font-size: 14px; font-weight: 500;">
-                    ${d.ram} • ${d.cpu}
+                    <ul class="space-y-2 text-sm mb-6">
                 </div>
                 <div style="font-size: 36px; font-weight: 900; color: #4f46e5; margin-bottom: 25px;">
                     <span style="font-size: 18px;">BDT</span> ${d.price}
                 </div>
                 <ul style="list-style: none; padding: 0; margin-bottom: 30px; color: #475569; font-size: 14px; line-height: 2;">
-                    <li>✅ ${d.storage}</li>
-                    <li>✅ ${d.bandwidth}</li>
-                    <li>✅ Full Root Access</li>
-                    <li>✅ Linux OS</li>
-                </ul>
-            </div>
+   <li class="font-bold text-[15px] text-slate-700">
+✔️ ${d.ram}
+
+
+</li>
+
+<li class="font-bold text-[15px] text-slate-700">
+✔️ ${d.cpu}
+</li>
+
+<li class="font-bold text-[15px] text-slate-700">
+✔️ ${d.storage}
+</li>
+
+<li class="font-bold text-[15px] text-slate-700">
+✔️ ${d.bandwidth}
+</li>
+
+<li class="font-bold text-[15px] text-slate-700">
+✔️ Full Root Access
+</li>
+
+<li class="font-bold text-[15px] text-slate-700">
+✔️ Linux OS
+</li>
+
+
             <button class="buy-plan-btn" data-id="${id}" data-name="${d.name}" style="width: 100%; background: #0f172a; color: white; padding: 15px; border-radius: 15px; border: none; font-weight: bold; cursor: pointer;">
                 Order Now
             </button>
